@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        function smarRes(str){
+             let index = 0
+             let stack = [] //栈一
+             let stacks = [] // 栈二
+             let rest = str
+             let tine = []
+             let word = ''
+             let stackPop = '' // 栈一弹出的内容
+             let stacksPop = ''// 栈二弹出的内容
+             while(index<str.length-1){
+                rest = str.substring(index)   // 获得剩下的内容 substring 含头不含尾  repalce（） search()范围第一个符合条件的 match（）寻找所有符合条件的
+                if(/^\d+\[/.test(rest)){//当前剩余部分是不是以数组开头
+                //    console.log(rest.match(/^(\d+)\[/))
+                   tine =  (rest.match(/^(\d+)\[/))[1]
+                   index += tine.toString().length + 1 // index加上tine也就是截取数字的长度 + 1 1是[ 这个 后面一项就是里面的字母
+                   stack.push(tine) // 数字压栈
+                   stacks.push('')
+                } else if(/^\w+\]/.test(rest)){  // w匹配字母数组下划线或者汉字 以字母开头 ]结尾
+                    // console.log(rest.match(/^(\w+)\]/))
+                    word = rest.match(/^(\w+)\]/)[1]
+                    console.log(word)
+                    stacks[stacks.length-1] = word  // 复制给栈二的最后一项
+                    index += word.length
+                } else {
+                    // stack stacks要弹栈 然后按照stack的数字 给stacks弹出的内容添加倍数
+                    stackPop = stack.pop()
+                    stacksPop = stacks.pop()
+                    stacks[stacks.length-1] += word.repeat(stackPop)
+                    index ++ 
+                    console.log(stack)
+                    console.log(stacks)
+                }
+             }
+             return stacks[0].repeat(stack[0])
+        }
+       let result = smarRes('333[2[a]3[b]]')
+       console.log(result)
+    </script>
+</body>
+</html>
